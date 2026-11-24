@@ -29,6 +29,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>emailjs.init("4Y7HjvlLfxRZTu8Ei");</script>
 
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
   <link rel="stylesheet" href="./style.css" type="text/css">
   
 </head>
@@ -652,6 +654,8 @@
               <label for="message">Mensagem</label>
               <textarea id="message" name="message" placeholder="Conte-me sobre seu projeto, prazos e objetivos..." required></textarea>
             </div>
+
+            <div class="g-recaptcha" data-sitekey="6LdoGDAuAAAAAAL1uI6jbOLcvjxUS8Db6aXAQWwE"></div>
 
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-paper-plane" aria-hidden="true"></i>
