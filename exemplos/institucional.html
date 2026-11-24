@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almeida & Associados | Advocacia</title>
+    <style>
+        /* Reset e Variáveis */
+        :root {
+            --bg-color: #0f172a; /* Azul escuro sóbrio */
+            --surface-color: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8; /* Azul claro para destaque */
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+        }
+
+        /* Utilitários */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: rgba(15, 23, 42, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #334155;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #0f172a;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        /* Sobre */
+        .about {
+            padding: 100px 0;
+            background-color: var(--bg-color);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .about-img {
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        /* Artigos */
+        .articles {
+            padding: 100px 0;
+            background-color: var(--surface-color);
+        }
+
+        .grid-articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background-color: var(--bg-color);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .article-date {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .article-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .article-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Agendamento */
+        .scheduling {
+            padding: 100px 0;
+            background-color: var(--bg-color);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--surface-color);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid #334155;
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #020617;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #1e293b;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .about-content { grid-template-columns: 1fr; }
+            .about-img { display: none; }
+            .nav-links { display: none; } /* Em um projeto real, criar menu hamburger */
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Almeida <span>&</span> Associados</div>
+                <div class="nav-links">
+                    <a href="#home">Início</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#artigos">Artigos</a>
+                    <a href="#agendamento">Agendamento</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Excelência Jurídica e Compromisso</h1>
+            <p>Defendemos seus interesses com a seriedade e a experiência que o seu caso exige.</p>
+            <a href="#agendamento" class="btn">Agende uma Consulta</a>
+        </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section id="sobre" class="about">
+        <div class="container">
+            <h2 class="section-title">Sobre o Escritório</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>O <strong>Almeida & Associados</strong> é um escritório de advocacia dedicado a oferecer soluções jurídicas personalizadas e estratégicas. Com uma abordagem sóbria e focada em resultados, atendemos clientes que buscam segurança jurídica e tranquilidade.</p>
+                    <p>Nossa equipe é composta por profissionais altamente qualificados, especializados nas mais diversas áreas do Direito, sempre pautados pela ética e pela transparência.</p>
+                </div>
+                <div class="about-img"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artigos Section -->
+    <section id="artigos" class="articles">
+        <div class="container">
+            <h2 class="section-title">Artigos e Notícias</h2>
+            <div class="grid-articles">
+                <!-- Artigo 1 -->
+                <div class="article-card">
+                    <span class="article-date">12 de Outubro, 2023</span>
+                    <h3>Reforma Tributária: O que muda para as empresas?</h3>
+                    <p>Uma análise aprofundada sobre as implicações da nova reforma tributária no cenário corporativo brasileiro.</p>
+                    <a href="#" class="read-more">Ler artigo →</a>
+                </div>
+                <!-- Artigo 2 -->
+                <div class="article-card">
+                    <span class="article-date">05 de Outubro, 2023</span>
+                    <h3>Direito de Família: Planejamento Sucessório</h3>
+                    <p>Como organizar o patrimônio familiar evitando conflitos futuros e otimizando custos.</p>
+                    <a href="#" class="read-more">Ler artigo →</a>
+                </div>
+                <!-- Artigo 3 -->
+                <div class="article-card">
+                    <span class="article-date">28 de Setembro, 2023</span>
+                    <h3>LGPD e o Setor Jurídico</h3>
+                    <p>Desafios e adequações necessárias para escritórios de advocacia frente à Lei Geral de Proteção de Dados.</p>
+                    <a href="#" class="read-more">Ler artigo →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agendamento Section -->
+    <section id="agendamento" class="scheduling">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center; border-left: none; padding-left: 0;">Agendamento Online</h2>
+            <div class="form-container">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" placeholder="Seu nome" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" placeholder="seu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="data">Data Preferencial</label>
+                            <input type="date" id="data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="area">Área Jurídica</label>
+                            <select id="area" required>
+                                <option value="">Selecione...</option>
+                                <option value="civil">Direito Civil</option>
+                                <option value="trabalhista">Direito Trabalhista</option>
+                                <option value="tributario">Direito Tributário</option>
+                                <option value="empresarial">Direito Empresarial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensagem">Breve Descrição do Caso</label>
+                        <textarea id="mensagem" rows="4" placeholder="Descreva resumidamente sua necessidade..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Solicitar Agendamento</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Almeida & Associados. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">OAB/SP 123.456 - Av. Paulista, 1000 - São Paulo, SP</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script simples para simular o envio do formulário
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Captura os dados (apenas para demonstração)
+            const nome = document.getElementById('nome').value;
+            const data = document.getElementById('data').value;
+            
+            // Simulação de envio
+            const btn = this.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Enviando...";
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert(`Obrigado, ${nome}! Sua solicitação para o dia ${data} foi recebida. Entraremos em contato em breve.`);
+                this.reset();
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+                btn.disabled = false;
+            }, 1500);
+        });
+
+        // Definir data mínima como hoje no input de data
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('data').setAttribute('min', today);
+    </script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace | TaskFlow</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome (Ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Variáveis de Design (Mesma paleta do SaaS) */
+        :root {
+            --bg-base: #0b1120;
+            --bg-surface: #1e293b;
+            --bg-card: #0f172a;
+            --bg-hover: #334155;
+            --primary: #0ea5e9;
+            --primary-hover: #0284c7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Evita scroll na janela inteira, apenas nas áreas internas */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Sidebar (Menu Lateral) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .brand {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+        }
+
+        .brand span {
+            color: var(--primary);
+        }
+
+        .workspace-selector {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .workspace-btn {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .workspace-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .nav-menu {
+            padding: 20px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background-color: rgba(14, 165, 233, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 20px 12px 8px;
+        }
+
+        .project-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* --- Área Principal --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Topbar */
+        .topbar {
+            height: 70px;
+            background-color: var(--bg-base);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 15px 10px 40px;
+            border-radius: 6px;
+            font-family: inherit;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-main);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Área do Board (Kanban) */
+        .board-container {
+            flex: 1;
+            padding: 30px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .board-title h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .board-title p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .board-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-surface);
+        }
+
+        /* Kanban Columns */
+        .kanban-board {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+            align-items: flex-start;
+        }
+
+        .kanban-column {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            width: 320px;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+        }
+
+        .column-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .task-count {
+            background-color: var(--bg-hover);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .column-tasks {
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* Task Card */
+        .task-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            cursor: grab;
+            transition: border-color 0.2s, transform 0.1s;
+        }
+
+        .task-card:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .task-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tag-feature { background-color: rgba(14, 165, 233, 0.1); color: var(--primary); }
+        .tag-bug { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .tag-design { background-color: rgba(168, 85, 247, 0.1); color: #a855f7; }
+
+        .task-card h4 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .task-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .task-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-assignees {
+            display: flex;
+        }
+
+        .avatar-sm {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            border: 2px solid var(--bg-card);
+            margin-left: -8px;
+        }
+
+        .avatar-sm:first-child {
+            margin-left: 0;
+        }
+
+        /* Cores dos status das colunas */
+        .status-todo { color: var(--text-muted); }
+        .status-progress { color: var(--warning); }
+        .status-done { color: var(--success); }
+
+        /* Responsividade Básica */
+        @media (max-width: 768px) {
+            .sidebar { width: 70px; }
+            .brand span, .workspace-selector, .nav-item span, .nav-section-title { display: none; }
+            .brand { justify-content: center; padding: 0; }
+            .nav-item { justify-content: center; padding: 15px 0; }
+            .kanban-column { width: 280px; min-width: 280px; }
+            .search-bar { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--primary)"/>
+                <path d="M2 17L12 22L22 17" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Task<span>Flow</span></span>
+        </div>
+
+        <div class="workspace-selector">
+            <button class="workspace-btn">
+                <span>Acme Corp</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem;"></i>
+            </button>
+        </div>
+
+        <div class="nav-menu">
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-inbox"></i> <span>Inbox</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span>My Tasks</span></a>
+            
+            <div class="nav-section-title">Projetos</div>
+            <a href="#" class="nav-item active"><i class="fa-solid fa-layer-group"></i> <span>Website Redesign</span></a>
+            <a href="#" class="nav-item"><span class="project-dot" style="background-color: #a855f7;"></span> <span>App Mobile</span></a>
+            <a href="#" class="nav-item"><span class="project-dot" style="background-color: #f59e0b;"></span> <span>Marketing Q4</span></a>
+            
+            <div class="nav-section-title">Configurações</div>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-users"></i> <span>Team</span></a>
+        </div>
+    </aside>
+
+    <!-- Área Principal -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar tarefas, projetos...">
+            </div>
+            <div class="topbar-actions">
+                <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+                <button class="icon-btn"><i class="fa-regular fa-circle-question"></i></button>
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div style="font-size: 0.9rem; font-weight: 500;">John Doe</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Board Container -->
+        <div class="board-container">
+            
+            <div class="board-header">
+                <div class="board-title">
+                    <h1>Website Redesign</h1>
+                    <p>Gerencie as tarefas de desenvolvimento e design do novo site.</p>
+                </div>
+                <div class="board-actions">
+                    <button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Filtrar</button>
+                    <button class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Convidar</button>
+                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Nova Tarefa</button>
+                </div>
+            </div>
+
+            <!-- Kanban Board -->
+            <div class="kanban-board">
+                
+                <!-- Coluna: A Fazer -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <i class="fa-regular fa-circle status-todo"></i> A Fazer
+                        </div>
+                        <span class="task-count">3</span>
+                    </div>
+                    <div class="column-tasks">
+                        <!-- Card 1 -->
+                        <div class="task-card">
+                            <div class="task-tags">
+                                <span class="tag tag-design">Design</span>
+                            </div>
+                            <h4>Criar protótipo de alta fidelidade no Figma</h4>
+                            <div class="task-footer">
+                                <div class="task-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 20 Out</span>
+                                    <span><i class="fa-regular fa-comment"></i> 2</span>
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar-sm" style="background-color: #a855f7;">AS</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="task-card">
+                            <div class="task-tags">
+                                <span class="tag tag-feature">Feature</span>
+                            </div>
+                            <h4>Integrar formulário de contato com CRM</h4>
+                            <div class="task-footer">
+                                <div class="task-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 22 Out</span>
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar-sm" style="background-color: #0ea5e9;">JD</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna: Em Progresso -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <i class="fa-solid fa-circle-half-stroke status-progress"></i> Em Progresso
+                        </div>
+                        <span class="task-count">2</span>
+                    </div>
+                    <div class="column-tasks">
+                        <!-- Card 3 -->
+                        <div class="task-card">
+                            <div class="task-tags">
+                                <span class="tag tag-bug">Bug</span>
+                            </div>
+                            <h4>Corrigir layout quebrado no menu mobile</h4>
+                            <div class="task-footer">
+                                <div class="task-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> Hoje</span>
+                                    <span><i class="fa-regular fa-comment"></i> 5</span>
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar-sm" style="background-color: #10b981;">MR</div>
+                                    <div class="avatar-sm" style="background-color: #f59e0b;">LT</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="task-card">
+                            <div class="task-tags">
+                                <span class="tag tag-feature">Feature</span>
+                            </div>
+                            <h4>Implementar sistema de assinaturas</h4>
+                            <div class="task-footer">
+                                <div class="task-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 25 Out</span>
+                                    <span><i class="fa-solid fa-paperclip"></i> 1</span>
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar-sm" style="background-color: #0ea5e9;">JD</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna: Concluído -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <i class="fa-regular fa-circle-check status-done"></i> Concluído
+                        </div>
+                        <span class="task-count">1</span>
+                    </div>
+                    <div class="column-tasks">
+                        <!-- Card 5 -->
+                        <div class="task-card" style="opacity: 0.6;">
+                            <div class="task-tags">
+                                <span class="tag tag-design">Design</span>
+                            </div>
+                            <h4 style="text-decoration: line-through;">Definir paleta de cores e tipografia</h4>
+                            <div class="task-footer">
+                                <div class="task-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 15 Out</span>
+                                </div>
+                                <div class="task-assignees">
+                                    <div class="avatar-sm" style="background-color: #a855f7;">AS</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Pequeno script para dar feedback visual ao clicar nas tarefas (simulação)
+        document.querySelectorAll('.task-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Em um app real, isso abriria um modal com os detalhes da tarefa
+                card.style.borderColor = 'var(--primary)';
+                setTimeout(() => {
+                    card.style.borderColor = 'var(--border)';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

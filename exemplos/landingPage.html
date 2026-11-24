@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass de Copywriting | Vendas com Propósito</title>
+    <!-- Google Fonts para tipografia moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset e Variáveis de Design */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-surface: #141414;
+            --primary: #6366f1; /* Roxo/Azul moderno */
+            --primary-hover: #4f46e5;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --highlight: #fbbf24; /* Amarelo para chamar atenção */
+            --font: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utilitários */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-cta:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        /* 1. Hero Section (Topo) */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at top, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+        }
+
+        .badge {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            display: inline-block;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* 2. Prova Social (Logos) */
+        .social-proof {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .social-proof p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            opacity: 0.6;
+        }
+        
+        .logos span {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        /* 3. O que você vai aprender */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+        }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-surface);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 4. Captura de E-mail (Lead Magnet) */
+        .lead-capture {
+            padding: 80px 0;
+            background-color: var(--bg-surface);
+            text-align: center;
+        }
+
+        .lead-capture h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .lead-capture p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--bg-dark);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        /* 5. Depoimentos */
+        .testimonials {
+            padding: 100px 0;
+        }
+
+        .grid-testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-surface);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stars {
+            color: var(--highlight);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details h4 {
+            font-size: 1rem;
+        }
+
+        .user-details span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 6. Oferta Final (CTA) */
+        .final-offer {
+            padding: 100px 0;
+            text-align: center;
+            background: radial-gradient(circle at bottom, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+        }
+
+        .price-box {
+            background-color: var(--bg-surface);
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 20px 0;
+        }
+
+        .price-tag span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .guarantee {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Contador Regressivo */
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .timer-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 70px;
+        }
+
+        .timer-box span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--highlight);
+        }
+
+        .timer-box small {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .form-group { flex-direction: column; }
+            .btn-cta { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <span class="badge">Lote 1 com Desconto</span>
+            <h1>Domine a Arte do <span>Copywriting</span> e Multiplique suas Vendas</h1>
+            <p>O método definitivo para escrever textos que conectam, persuadem e convertem leitores em clientes fiéis. Mesmo que você esteja começando do zero.</p>
+            <a href="#inscricao" class="btn-cta">Quero Garantir Minha Vaga</a>
+        </div>
+    </section>
+
+    <!-- 2. Prova Social -->
+    <section class="social-proof">
+        <div class="container">
+            <p>Alunos das melhores empresas do mercado</p>
+            <div class="logos">
+                <span>TechCorp</span>
+                <span>MarketingPro</span>
+                <span>E-commerce S.A.</span>
+                <span>Agência X</span>
+                <span>Startup Y</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. O que você vai aprender -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">O que você vai dominar no curso</h2>
+            <div class="grid-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Psicologia da Persuasão</h3>
+                    <p>Entenda como a mente do seu cliente funciona e use gatilhos mentais éticos para guiar a decisão de compra.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3>Estruturas de Copywriting</h3>
+                    <p>Aprenda frameworks testados e aprovados (AIDA, PAS, 4Ps) para nunca mais ficar olhando para a tela em branco.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📧</div>
+                    <h3>E-mail Marketing de Alta Conversão</h3>
+                    <p>Crie sequências de e-mails que aquecem o lead e vendem no automático, enquanto você dorme.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Landing Pages Otimizadas</h3>
+                    <p>Estruture páginas de vendas e captura que transformam visitantes casuais em oportunidades reais de negócio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Captura de E-mail (Isca Digital) -->
+    <section class="lead-capture" id="isca">
+        <div class="container">
+            <h2>Não perca as próximas aulas ao vivo!</h2>
+            <p>Deixe seu melhor e-mail abaixo para receber o cronograma completo e materiais exclusivos gratuitos.</p>
+            <!-- Formulário pronto para integração com Mailchimp, ConvertKit, etc. -->
+            <form class="form-group" id="leadForm">
+                <input type="email" placeholder="Seu melhor e-mail" required id="emailInput">
+                <button type="submit" class="btn-cta" style="padding: 16px 24px;">Receber Material</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 5. Depoimentos -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">O que nossos alunos dizem</h2>
+            <div class="grid-testimonials">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"O curso mudou completamente minha visão sobre vendas. Em 30 dias, apliquei as técnicas de copy e dobrei minha taxa de conversão na minha agência."</p>
+                    <div class="user-info">
+                        <div class="user-avatar">M</div>
+                        <div class="user-details">
+                            <h4>Mariana Costa</h4>
+                            <span>Dona de Agência</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Conteúdo direto ao ponto. Nada de enrolação. Os frameworks de e-mail marketing que o professor ensinou já geraram mais de R$ 50k em vendas para o meu e-commerce."</p>
+                    <div class="user-info">
+                        <div class="user-avatar">R</div>
+                        <div class="user-details">
+                            <h4>Rafael Almeida</h4>
+                            <span>E-commerce Manager</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Eu era freelancer e vivia cobrando barato. Com o que aprendi aqui, mudei meu portfólio e hoje cobro 3x mais por projeto. Melhor investimento do ano."</p>
+                    <div class="user-info">
+                        <div class="user-avatar">J</div>
+                        <div class="user-details">
+                            <h4>Juliana Ribeiro</h4>
+                            <span>Copywriter Freelancer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Oferta Final -->
+    <section class="final-offer" id="inscricao">
+        <div class="container">
+            <h2 class="section-title">Garanta sua vaga agora</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">As inscrições encerram em breve. Aproveite o valor promocional.</p>
+            
+            <!-- Contador Regressivo -->
+            <div class="timer-container" id="timer">
+                <div class="timer-box"><span id="days">00</span><small>Dias</small></div>
+                <div class="timer-box"><span id="hours">00</span><small>Horas</small></div>
+                <div class="timer-box"><span id="minutes">00</span><small>Min</small></div>
+                <div class="timer-box"><span id="seconds">00</span><small>Seg</small></div>
+            </div>
+
+            <div class="price-box">
+                <p class="old-price">De R$ 1.997,00</p>
+                <p>Por apenas 12x de</p>
+                <div class="price-tag">R$ 197<span>,00</span></div>
+                <p>ou R$ 1.997,00 à vista</p>
+                
+                <button class="btn-cta" style="width: 100%; margin-top: 20px;">QUERO ME INSCREVER AGORA</button>
+                
+                <div class="guarantee">
+                    <span>🛡️</span> Garantia incondicional de 7 dias
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Masterclass de Copywriting. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Contador Regressivo (Escassez)
+        // Define uma data alvo (ex: 3 dias a partir de hoje)
+        const countDownDate = new Date();
+        countDownDate.setDate(countDownDate.getDate() + 3); 
+
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate.getTime() - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Adiciona zero à esquerda
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById("timer").innerHTML = "<h3>Oferta Encerrada!</h3>";
+            }
+        }, 1000);
+
+        // 2. Simulação de Integração de E-mail
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            const btn = this.querySelector('button');
+
+            // Aqui você faria a chamada de API para seu sistema de e-mail (Mailchimp, RD Station, etc.)
+            // Exemplo: fetch('https://sua-api.com/subscribe', { method: 'POST', body: ... })
+
+            // Feedback visual de sucesso
+            btn.innerText = "Enviado com Sucesso!";
+            btn.style.backgroundColor = "#10b981"; // Verde
+            btn.style.boxShadow = "none";
+            this.reset();
+
+            setTimeout(() => {
+                btn.innerText = "Receber Material";
+                btn.style.backgroundColor = "var(--primary)";
+                btn.style.boxShadow = "0 4px 14px rgba(99, 102, 241, 0.4)";
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

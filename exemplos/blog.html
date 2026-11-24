@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Observador | Blog de Tecnologia e Design</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variáveis de Design */
+        :root {
+            --bg-body: #fafafa;
+            --bg-surface: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border-color: #e5e7eb;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Merriweather', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .btn-subscribe {
+            background-color: var(--text-main);
+            color: var(--bg-surface);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn-subscribe:hover {
+            background-color: var(--accent);
+        }
+
+        /* Hero Post (Destaque Principal) */
+        .hero-post {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .category-badge {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+        }
+
+        /* Seção de Posts Recentes */
+        .recent-posts {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+        }
+
+        .section-header a {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .section-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Grid de Artigos */
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .post-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-surface);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .post-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .post-card-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .post-card-content .category-badge {
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+        }
+
+        .post-card-content h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .post-card-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .post-card-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        /* Newsletter (Inscrição) */
+        .newsletter {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .newsletter p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 480px;
+            margin: 0 auto;
+            gap: 12px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .newsletter-form button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .hero-image {
+                height: 300px;
+            }
+            .nav-links {
+                display: none; /* Em um projeto real, implementar menu hamburger */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-form button {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">O <span>Observador</span>.</a>
+            <nav class="nav-links">
+                <a href="#">Tecnologia</a>
+                <a href="#">Design</a>
+                <a href="#">Cultura</a>
+                <a href="#">Sobre</a>
+            </nav>
+            <a href="#newsletter" class="btn-subscribe">Assinar</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Destaque Principal -->
+        <section class="hero-post">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <span class="category-badge">Inteligência Artificial</span>
+                    <h1>O futuro do design não será feito por humanos, mas por algoritmos?</h1>
+                    <p>Uma análise profunda sobre como as ferramentas de IA generativa estão transformando o papel dos designers e o processo criativo nas grandes agências de tecnologia.</p>
+                    <div class="post-meta">
+                        <div class="author-avatar"></div>
+                        <div>
+                            <div style="color: var(--text-main); font-weight: 500;">Por Lucas Silva</div>
+                            <div>12 de Outubro, 2023 • 8 min de leitura</div>
+                        </div>
+                    </div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Inteligência Artificial e Design" class="hero-image">
+            </div>
+        </section>
+
+        <!-- Posts Recentes -->
+        <section class="recent-posts">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Últimas Publicações</h2>
+                    <a href="#">Ver todos os artigos →</a>
+                </div>
+
+                <div class="post-grid">
+                    <!-- Post 1 -->
+                    <article class="post-card">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Código em tela" class="post-card-img">
+                        <div class="post-card-content">
+                            <span class="category-badge">Desenvolvimento</span>
+                            <h3>Por que o Vanilla JavaScript está voltando com tudo em 2024</h3>
+                            <p>A ascensão dos frameworks cansou os desenvolvedores? Entenda por que as bibliotecas básicas estão retornando ao centro das discussões.</p>
+                            <div class="post-card-meta">
+                                05 Out 2023 • 5 min de leitura
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Post 2 -->
+                    <article class="post-card">
+                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Design minimalista" class="post-card-img">
+                        <div class="post-card-content">
+                            <span class="category-badge">Design</span>
+                            <h3>O minimalismo extremo está matando a usabilidade?</h3>
+                            <p>Interfaces limpas são lindas em portfólios, mas como elas se comportam no mundo real quando o usuário está sob estresse?</p>
+                            <div class="post-card-meta">
+                                28 Set 2023 • 6 min de leitura
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Post 3 -->
+                    <article class="post-card">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hardware" class="post-card-img">
+                        <div class="post-card-content">
+                            <span class="category-badge">Hardware</span>
+                            <h3>A era dos chips neurais: o que esperar dos dispositivos da próxima década</h3>
+                            <p>Os processadores tradicionais estão atingindo seu limite. Conheça a arquitetura que promete revolucionar a computação pessoal.</p>
+                            <div class="post-card-meta">
+                                20 Set 2023 • 10 min de leitura
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter" id="newsletter">
+            <div class="container">
+                <h2>Receba as melhores análises</h2>
+                <p>Junte-se a mais de 15.000 leitores e receba um resumo semanal dos artigos mais importantes sobre tecnologia e design.</p>
+                <form class="newsletter-form" id="newsForm">
+                    <input type="email" placeholder="Seu endereço de e-mail" required id="emailInput">
+                    <button type="submit">Inscrever-se</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 O Observador. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Feito com foco na leitura.</p>
+        </div>
+    </footer>
+
+    <!-- Script Simples para Feedback do Formulário -->
+    <script>
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Inscrito!";
+            btn.style.backgroundColor = "#10b981"; // Verde de sucesso
+            this.reset();
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "var(--accent)";
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
