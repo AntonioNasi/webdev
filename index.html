@@ -837,46 +837,62 @@
       });
 
       // ===== FORMULÁRIO DE CONTATO =====
-      const contactForm = document.getElementById('contactForm');
+const contactForm = document.getElementById('contactForm');
 
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        // Validação básica
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value.trim();
+    // 1. Validação básica dos campos
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value.trim();
 
-        if (!name || !email || !subject || !message) {
-          showNotification('Por favor, preencha todos os campos.', 'error');
-          return;
-        }
+    if (!name || !email || !subject || !message) {
+        showNotification('Por favor, preencha todos os campos.', 'error');
+        return;
+    }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          showNotification('Por favor, insira um e-mail válido.', 'error');
-          return;
-        }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Por favor, insira um e-mail válido.', 'error');
+        return;
+    }
 
-        // Simulação de envio (em produção, enviar para servidor/API)
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        submitBtn.disabled = true;
+    // 2. Verifica se o usuário marcou o captcha
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) {
+        showNotification('Por favor, marque a caixa "Não sou um robô".', 'error');
+        return;
+    }
 
-        emailjs.sendForm('service_m5xxjhl', 'template_nqbfx65', contactForm)
-  .then(function() {
-      showNotification('Mensagem enviada com sucesso!', 'success');
-      contactForm.reset();
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
-  }, function(error) {
-      showNotification('Falha ao enviar. Tente novamente.', 'error');
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
-  });
-      });
+    // 3. Prepara o botão para o estado de carregamento
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    submitBtn.disabled = true;
+
+    // 4. Envia via EmailJS (A MÁGICA ACONTECE AQUI)
+    // O EmailJS vai ler o token do reCAPTCHA automaticamente do formulário.
+    emailjs.sendForm('service_m5xxjhl', 'template_nqbfx65', contactForm)
+        .then(function() {
+            // Sucesso
+            showNotification('Mensagem enviada com sucesso!', 'success');
+            
+            contactForm.reset();
+            grecaptcha.reset(); // Reseta o captcha para um próximo envio
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, function(error) {
+            // ERRO: Isso vai mostrar no console o motivo EXATO do erro 400
+            console.error('Erro detalhado do EmailJS:', error.text || error); 
+            
+            showNotification('Falha ao enviar. Verifique o console.', 'error');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+});
 
       // ===== SISTEMA DE NOTIFICAÇÃO (TOAST) =====
       function showNotification(message, type = 'info') {
